@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+    <body>
+<!--        <button onclick="onMessage(ws)"> 소켓 데이터 전송</button>-->
+<!--        <button onclick="onClose(ws)"> 소켓 연결끊기</button>-->
+    <button onclick="sockon()"> 소켓 연결</button>
+    </body>
+<!--    <script src="/data/chatmoudule.js"/>-->
+    <script>
+        function sockon(){
+            var ws = new WebSocket('ws://localhost:3000')
+            ws.onopen = function (event){
+                let sendData= {event : 'open'}
+                ws.send("이것은 접속데이터 입니다")
+            }
+        }
+
+
+        // function onMessage(ws){
+        //     ws.emit('connection',"message")
+        // }
+        // function onClose(ws){
+        //     ws.onClose = function (e){alert("소켓닫음")}
+        // }
+    </script>
+
+</html>
