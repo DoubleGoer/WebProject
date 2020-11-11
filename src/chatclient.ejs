@@ -4,24 +4,42 @@
 
     </head>
     <body>
-<!--        <button onclick="onMessage(ws)"> 소켓 데이터 전송</button>-->
+        <button onclick="onMessage(this.ws)"> 소켓 데이터 전송</button>
 <!--        <button onclick="onClose(ws)"> 소켓 연결끊기</button>-->
     <button onclick="sockon()"> 소켓 연결</button>
     </body>
 <!--    <script src="/data/chatmoudule.js"/>-->
+
+
     <script>
+        let ws = new WebSocket('ws://localhost:3000')
         function sockon(){
-            var ws = new WebSocket('ws://localhost:3000')
-            ws.onopen = function (event){
-                let sendData= {event : 'open'}
-                ws.send("이것은 접속데이터 입니다")
-            }
+
+        }
+        ws.onopen =  (data)=>{
+            let sendData= {type : 'open',
+                data : '접속데이터 입니다.'}
+            // let message = JSON.parse(data.data)
+            // switch (message){
+            //     case "resend":
+            //         console.log(message.message)
+            // }
+            ws.send(JSON.stringify(sendData))
         }
 
-
-        // function onMessage(ws){
-        //     ws.emit('connection',"message")
-        // }
+            ws.onmessage = (message)=> {
+                console.log(message)
+                let data = JSON.parse(message.data)
+                console.log(data)
+                switch (data.type) {
+                    case 'resend':
+                        console.log(data.message)
+                }
+            }
+        function onMessage(ws){
+            let sendData= {type : 'open', data : '접속데이터 입니다.'}
+            ws.send(sendData)
+        }
         // function onClose(ws){
         //     ws.onClose = function (e){alert("소켓닫음")}
         // }

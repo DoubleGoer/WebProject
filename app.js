@@ -40,15 +40,8 @@ app.post('/')
 app.use('/data',express.static('public'))
 app.use('/page', test)
 
+let sockio = require('./module/socket')
+sockio(server)
 
 
 
-
-
-//웹 소켓 IO
-let WebSocketServer = require('ws')
-let wss = new WebSocketServer.Server({server})
-
-wss.on('connection',(connetion)=>{
-    console.log('conectServer')
-})

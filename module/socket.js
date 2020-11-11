@@ -1,26 +1,36 @@
- function sockIO(io) {
-    console.log("정상 작동")
-    io.on('connection',(socket)=>{
-        console.log("user connected")
-        socket.on('message',(message)=>{
-            const sendData ={
-                event:'response',
-                data: null
-            }
+//웹 소켓 IO
+let sockIO = (server) => {
+    let WebSocketServer = require('ws')
+    let wss = new WebSocketServer.Server({server})
+    let user = new Array();
+    let userlist = new Object();
+    var i = 0
+    wss.on('connection', (connetion) => {
+        user['no'] = i++;
+        user['conn'] = connetion;
+        console.log('conectServer')
 
-            switch (message.event){
-                case 'open':
-                    console.log("User is on");
-                    break;
-                case 'requset' :
-                    sendData.Data ="Some Data is Come"
-                    socket.send(JSON.stringify(sendData))
-                    break;
+        connetion.on('message', (message) => {
+            let data;
+            try {
+                data = JSON.parse(message)
+            } catch (e) {
+                data = {}
+                console.log("데이터가 정상적인 형식으로 들어오지 않았습니다.")
             }
-        });
+            let sendMessage = new ArrayBuffer()
+            switch (data.type) {
+                case "open" :
+                    console.log("여기까지 들어옴")
+                    sendMessage['type'] = 'resend'
+                    sendMessage['message'] = 'Is This True????'
+                    console.log(sendMessage)
+                    connetion.send(JSON.stringify(sendMessage))
+                    console.log("성공")
+
+            }
+        })
     })
-
 }
-
 
 module.exports = sockIO
