@@ -34,6 +34,8 @@
                 switch (data.type) {
                     case 'resend':
                         console.log(data.message)
+                    case 'chat':
+                        console.log((data.message))
                 }
             }
         function onMessage(ws){

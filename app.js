@@ -41,6 +41,7 @@ app.use('/data',express.static('public'))
 app.use('/page', test)
 
 let sockio = require('./module/socket')
+
 sockio(server)
 
 
